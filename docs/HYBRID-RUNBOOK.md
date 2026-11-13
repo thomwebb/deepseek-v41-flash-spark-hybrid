@@ -92,22 +92,23 @@ After successful promotion:
 - `dsv41-hybrid.service` is the sole active/enabled model supervisor on the head.
 - Original `dsv41.service` is stopped/disabled, but its unit file and local settings are unchanged and checksum-verified. The new unit also declares `Conflicts=dsv41.service` with ordering, so systemd will not start both model supervisors together.
 - Both Docker ranks have restart policy `no`; systemd owns pair restart so two independent supervisors cannot race.
-- The worker has no competing model unit. The head already has user lingering enabled, and starts the worker over the same passwordless SSH path as the original deployment.
+- The worker has no competing model unit. The head has user lingering enabled by `install-supervisor.sh`, and starts the worker over the same passwordless SSH path as the original deployment.
 - The original worker NFS volume and rank/Engram mounts are retained. Docker's volume configuration persists across reboot.
 - SSH/network startup failures cause bounded failed starts followed by systemd retry.
 - Memory guards watch both ranks: soft floor 3.5 GiB held for 2 s, hard floor 2.5 GiB. These use OS `MemAvailable`, because GPU and CPU share Spark memory.
 - Promotion intentionally stops the head container and requires systemd to replace **both** rank containers and recover health. The result is recorded in the deployment report.
 
-A real two-host OS reboot was subsequently tested on 2026-11-04. Both boot IDs changed; the hybrid started without manual intervention and was ready 45.76 seconds after head boot, with zero supervisor retries. The worker booted approximately 43 seconds earlier, so this does not prove every boot ordering or an abrupt power-loss scenario. Post-boot: 20/20 API contracts, 3/3 saved-prefix/continuation checks, and 14/14 benchmark checks passed. Evidence: `evidence/reboot-20261104/reboot.json` in the public repository.
+A real two-host OS reboot was subsequently tested on 2026-11-04. Both boot IDs changed; the hybrid started without manual intervention and was ready 45.76 seconds after head boot, with zero supervisor retries. That test exercised a head where linger was **already** enabled; it did not prove that a fresh install would come back on its own, which is why linger is now set by an installer and gated before promotion. The worker booted approximately 43 seconds earlier, so this does not prove every boot ordering or an abrupt power-loss scenario. Post-boot: 20/20 API contracts, 3/3 saved-prefix/continuation checks, and 14/14 benchmark checks passed. Evidence: `evidence/reboot-20261104/reboot.json` in the public repository.
 
 ### What happens at boot
 
 Boot wiring inspected and automatic startup observed in the real reboot above:
 
-- Head user lingering is enabled (`loginctl show-user cell --property=Linger` -> `yes`), so the user manager starts without a login.
+- Head user lingering is enabled for whoever runs the recipe (`loginctl show-user "$(id -un)" --property=Linger` -> `yes`), so the user manager starts without a login. `install-supervisor.sh` sets it; `promote_grammar.py` refuses to promote while it is off.
 - `dsv41-hybrid.service` is enabled and linked from `default.target.wants`, so it is pulled in at boot.
+- Neither fact is implied by installing the unit. `systemctl --user enable` only creates the `default.target.wants` link; it does not enable linger. A unit that is enabled but not lingering is silently dead after every reboot.
 - `docker.service` is enabled on both hosts; `ssh.socket` is enabled on both (socket-activated SSH is normal on Ubuntu, `ssh.service` shows `disabled`).
-- The head exports `/home/cell/.cache/huggingface` read-only to `10.100.40.1`, and `nfs-server` is enabled and active.
+- The head exports its Hugging Face cache read-only to `10.100.40.1`, and `nfs-server` is enabled and active. With the default user-agnostic worker the export is `/home/$(id -un)/.cache/huggingface`.
 - The worker has no model unit of its own; it is started remotely by the head supervisor over the same passwordless SSH path.
 - Neither rank container has a Docker restart policy, so there is exactly one supervisor after boot.
 
@@ -131,6 +132,7 @@ Disk headroom is also tight on the head: 324 GB free on a 3.7 TB root filesystem
 Useful commands on the head:
 
 ```sh
+./install-supervisor.sh --check
 systemctl --user status dsv41-hybrid.service
 journalctl --user -u dsv41-hybrid.service -f
 curl -fsS http://127.0.0.1:8888/health

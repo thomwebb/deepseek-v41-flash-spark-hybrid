@@ -75,6 +75,7 @@ grammar_runtime.py   start/stop the rank pair, readiness, memory guards
 supervise_grammar.py systemd-owned supervisor (restarts on head exit)
 verify_grammar.py    fail-closed acceptance gate for a built image
 promote_grammar.py   extended contracts, soak, session probes, recovery drill
+install-supervisor.sh installs the head unit and enables user linger, as whoever runs it
 grammar_rollback.sh  one-command return to the untouched original deployment
 docker_clone.py      clone baseline containers via the local Docker API, no secret argv
 api_contract.py      20 API/stream/schema tests
@@ -103,8 +104,9 @@ Environment overrides (defaults reproduce the reference deployment):
 
 ```
 SPARK_HYBRID_ROOT   ~/spark-hybrid-20261031
-SPARK_WORKER        cell@10.100.40.1
-SPARKDASH_QUALITY_URL  required only for the SparkDash quality runner
+SPARK_WORKER        10.100.40.1  (no user: ssh logs in as whoever runs the recipe; set user@host to override)
+SPARKDASH_QUALITY_URL  required for the SparkDash quality runner; the rollback scripts
+                       use it to cancel their own run, and skip that step when unset
 ```
 
 ## Reproduce
@@ -121,8 +123,13 @@ SPARKDASH_QUALITY_URL  required only for the SparkDash quality runner
    **restores the original before promotion**.
 5. `verify_grammar.py` refuses to bless an image unless every contract, speed ratio,
    coding check and paired quality item passes.
-6. `promote_grammar.py` installs `dsv41-hybrid.service`, disables the original unit,
-   and re-checks speed, mixed soak and session behaviour across an induced pair restart.
+6. `install-supervisor.sh` puts `dsv41-hybrid.service` in `~/.config/systemd/user/`,
+   enables **user linger**, and enables the unit. Linger is what makes it start after a
+   reboot with nobody logged in; `systemctl --user enable` alone does not do that.
+   `install-supervisor.sh --check` reports all three facts at any time.
+7. `promote_grammar.py` installs `dsv41-hybrid.service`, refuses to run while linger is
+   off, disables the original unit, and re-checks speed, mixed soak and session behaviour
+   across an induced pair restart.
 
 Full detail, including the exact commands and the recovery semantics:
 [docs/HYBRID-RUNBOOK.md](docs/HYBRID-RUNBOOK.md).

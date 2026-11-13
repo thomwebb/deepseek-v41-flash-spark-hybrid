@@ -3,7 +3,7 @@
 set -euo pipefail
 root=$HOME/spark-hybrid-20261031
 old=$HOME/spark-ab-20261031
-worker=cell@10.100.40.1
+worker=${SPARK_WORKER:-10.100.40.1}  # no user: ssh uses whoever runs the recipe
 cd "$root/recipe"
 "$old/dsv41-token-map" --tokenizer "$root/model/tokenizer.json" --config "$root/model/config.json" --output "$root/assets/engram-token-map.bin"
 rsync -a "$root/assets/engram-token-map.bin" "$worker:$root/assets/engram-token-map.bin"

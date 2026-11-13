@@ -21,6 +21,16 @@ def unit(field):
     return run(["systemctl", "--user", "show", "dsv41-hybrid.service", "--property", field, "--value"]).stdout.strip()
 
 
+def require_linger():
+    """An enabled user unit does not run at boot unless linger is on."""
+    user = run(["id", "-un"]).stdout.strip()
+    state = run(["loginctl", "show-user", user, "--property=Linger", "--value"]).stdout.strip()
+    if state != "yes":
+        raise RuntimeError(f"User linger is '{state}' for {user}; run install-supervisor.sh first, "
+                           "otherwise the promoted unit never starts after a reboot")
+    return {"user": user, "linger": state}
+
+
 def wait_supervised(manifest, after, previous_pid=None, seconds=600):
     deadline = time.monotonic() + seconds
     while time.monotonic() < deadline:
@@ -61,6 +71,7 @@ def main():
         run(["sha256sum", "-c", ROOT / "rollback/config-sha256.txt"])
         if health().get("live", {}).get("connections", 0):
             raise RuntimeError("Live traffic detected; refusing deployment maintenance")
+        report["linger"] = require_linger()
         installed = Path.home() / ".config/systemd/user/dsv41-hybrid.service"
         installed.parent.mkdir(parents=True, exist_ok=True)
         staged = ROOT / "dsv41-hybrid.service"

@@ -2,20 +2,22 @@
 # Restore the original pinned image/config through its existing systemd supervisor.
 set -eu
 stage=$HOME/spark-hybrid-20261031
-worker=cell@10.100.40.1
+worker=${SPARK_WORKER:-10.100.40.1}  # no user: ssh uses whoever runs the recipe
 candidate=spark-hybrid-native-mia
 original=dsv41-1017-exl3-tf
 mkdir -p "$stage/logs"
 # Cancel only this trial's own SparkDash job before restoring the old endpoint.
 python3 - <<'PY'
 import json
+import os
 import urllib.request
 from pathlib import Path
 path=Path.home()/'spark-hybrid-20261031/results/sparkdash-candidate-start.json'
-if path.exists():
+base=os.environ.get('SPARKDASH_QUALITY_URL','').rstrip('/')
+if path.exists() and base:
     try:
         job=json.loads(path.read_text())
-        url='http://cell-mm:5555/api/sparks/spark-5a74/llm/quality-bench/'+job['benchId']
+        url=base+'/'+job['benchId']
         with urllib.request.urlopen(url,timeout=10) as response:
             current=json.load(response)
         if current.get('status')=='running':

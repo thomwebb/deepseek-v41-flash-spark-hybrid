@@ -9,7 +9,8 @@ from pathlib import Path
 # Defaults reproduce the reference deployment; override for another pair.
 ROOT = Path(os.environ.get("SPARK_HYBRID_ROOT", str(Path.home() / "spark-hybrid-20261031")))
 RECIPE = ROOT / "recipe"
-WORKER = os.environ.get("SPARK_WORKER", "cell@10.100.40.1")
+# No user in the default: ssh logs in as whoever runs the recipe. Set user@host to override.
+WORKER = os.environ.get("SPARK_WORKER", "10.100.40.1")
 PREFIX = "spark-hybrid-native-mia"
 BASE = "http://127.0.0.1:8888"
 

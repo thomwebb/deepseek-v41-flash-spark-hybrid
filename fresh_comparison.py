@@ -27,8 +27,10 @@ def stop_jay():
 
 def restore():
     stop_jay()
-    run(['systemctl', '--user', 'disable', '--now', 'dsv41.service'], 180, False)
-    run(['systemctl', '--user', 'enable', '--now', 'dsv41-hybrid.service'], 180)
+    # Start, but do not change boot policy: which supervisor runs at boot is
+    # owned by install-supervisor.sh and promote_grammar.py, not by a benchmark.
+    run(['systemctl', '--user', 'stop', 'dsv41.service'], 180, False)
+    run(['systemctl', '--user', 'start', 'dsv41-hybrid.service'], 180)
     wait_healthy('spark-hybrid-grammar-r0')
 
 
@@ -92,8 +94,8 @@ def main():
     fallback = (f'sleep 2400; if [ ! -f "{STAGE}/complete" ]; then '
                 f'docker stop -t 25 {CANDIDATE}-r0; '
                 f'ssh -o BatchMode=yes -o ConnectTimeout=10 {WORKER} "docker stop -t 25 {CANDIDATE}-r1"; '
-                'systemctl --user disable --now dsv41.service; '
-                'systemctl --user enable --now dsv41-hybrid.service; fi')
+                'systemctl --user stop dsv41.service; '
+                'systemctl --user start dsv41-hybrid.service; fi')
     guardian = subprocess.Popen(['sh', '-c', fallback], start_new_session=True,
                                 stdout=(STAGE / 'guardian.log').open('w'), stderr=subprocess.STDOUT)
     try:
