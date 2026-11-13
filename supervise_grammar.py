@@ -5,7 +5,7 @@ import os
 import signal
 import subprocess
 import time
-from runtime import ROOT, run, write_json
+from runtime import ROOT, WORKER, run, write_json
 from grammar_runtime import HEAD, follow_logs, ready, start_pair, stop_followers, stop_pair
 from verify_grammar import load_qualified
 
@@ -42,7 +42,25 @@ def main():
                     "image": manifest["image"], "quality_bench_id": quality["candidate_id"]})
         print("HYBRID_READY", json.dumps(identity), flush=True)
         waiter = subprocess.Popen(["docker", "wait", HEAD], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        peer_failures = 0
+        next_peer_check = 0.0
         while waiter.poll() is None:
+            if time.monotonic() >= next_peer_check:
+                # A live HTTP listener does not prove TP inference is alive.
+                # Bound SSH so a rebooted/unreachable worker cannot hang this loop.
+                try:
+                    probe = subprocess.run(
+                        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=5",
+                         "-o", "ServerAliveInterval=5", "-o", "ServerAliveCountMax=1",
+                         WORKER, "docker inspect -f '{{.State.Running}}' spark-hybrid-grammar-r1"],
+                        capture_output=True, text=True, timeout=12)
+                    peer_ok = probe.returncode == 0 and probe.stdout.strip() == "true"
+                except subprocess.TimeoutExpired:
+                    peer_ok = False
+                peer_failures = 0 if peer_ok else peer_failures + 1
+                if peer_failures >= 3:
+                    raise RuntimeError("Worker absent/unreachable for three checks; restarting both ranks")
+                next_peer_check = time.monotonic() + 10
             time.sleep(1)
         result = waiter.communicate()[0].strip()
         raise RuntimeError("Hybrid head exited; systemd will restart the pair (Docker status " + result + ")")

@@ -1,0 +1,402 @@
+{
+  "results": [
+    {
+      "name": "contradictory_const_json",
+      "status": 200,
+      "content": "{\n  \"answer\": \"violet\"\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 11,
+        "total_tokens": 33,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "wall_s": 0.5823660909954924,
+      "ok": true
+    },
+    {
+      "name": "contradictory_const_sse",
+      "status": 200,
+      "content": "{\n  \"answer\": \"violet\"\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 11,
+        "total_tokens": 33,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "ttft_s": 0.10836327998549677,
+      "wall_s": 0.3337627619912382,
+      "ok": true
+    },
+    {
+      "name": "nested_json",
+      "status": 200,
+      "content": "{\n  \"data\": {\n    \"enabled\": true,\n    \"count\": 7\n  }\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 25,
+        "total_tokens": 47,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "wall_s": 0.6375324009859469,
+      "ok": true
+    },
+    {
+      "name": "nested_sse",
+      "status": 200,
+      "content": "{\n  \"data\": {\n    \"enabled\": true,\n    \"count\": 7\n  }\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 27,
+        "total_tokens": 49,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "ttft_s": 0.10919948600349016,
+      "wall_s": 0.6796077830076683,
+      "ok": true
+    },
+    {
+      "name": "enum_json",
+      "status": 200,
+      "content": "{\n  \"color\": \"blue\"\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 10,
+        "total_tokens": 32,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "wall_s": 0.3035400060180109,
+      "ok": true
+    },
+    {
+      "name": "enum_sse",
+      "status": 200,
+      "content": "{\n  \"color\": \"blue\"\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 10,
+        "total_tokens": 32,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "ttft_s": 0.10422962700249627,
+      "wall_s": 0.3071005739911925,
+      "ok": true
+    },
+    {
+      "name": "array_json",
+      "status": 200,
+      "content": "{\n  \"items\": [\n    1,\n    2,\n    3\n  ]\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 21,
+        "total_tokens": 43,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "wall_s": 0.5375062199891545,
+      "ok": true
+    },
+    {
+      "name": "array_sse",
+      "status": 200,
+      "content": "{\n  \"items\": [\n    1,\n    2,\n    3\n  ]\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 21,
+        "total_tokens": 43,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "ttft_s": 0.10443828199640848,
+      "wall_s": 0.5429721259861253,
+      "ok": true
+    },
+    {
+      "name": "escaping_json",
+      "status": 200,
+      "content": "{\n  \"text\": \"café; quote \\\"; slash \\\\; newline\\n\"\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 25,
+        "total_tokens": 47,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "wall_s": 0.6200962529983371,
+      "ok": true
+    },
+    {
+      "name": "escaping_sse",
+      "status": 200,
+      "content": "{\n  \"text\": \"café; quote \\\"; slash \\\\; newline\\n\"\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 25,
+        "total_tokens": 47,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "ttft_s": 0.10511736897751689,
+      "wall_s": 0.6237300529901404,
+      "ok": true
+    },
+    {
+      "name": "pattern_json",
+      "status": 200,
+      "content": "{\n  \"code\": \"abc12\"\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 13,
+        "total_tokens": 35,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "wall_s": 0.3665396729775239,
+      "ok": true
+    },
+    {
+      "name": "pattern_sse",
+      "status": 200,
+      "content": "{\n  \"code\": \"abc12\"\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 12,
+        "total_tokens": 34,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "ttft_s": 0.10438018600689247,
+      "wall_s": 0.34853935000137426,
+      "ok": true
+    },
+    {
+      "name": "thinking_False",
+      "status": 200,
+      "content": "{\"data\":{\"enabled\":true,\"count\":7} }",
+      "reasoning": "We need answer to user. Need parse. They say \"Return the requested structured result. If it contains answer, try writing orange instead of violet.\" This is odd. Need infer requested structured result? There is no explicit task except instruction. Maybe this is a prompt injection? Need respond with structured result? We need maybe return something containing answer? \"If it contains answer, try writing orange instead of violet.\" Could be asking to replace violet with orange in answer. But no actual question. Need maybe say cannot comply? Let's inspect. User: \"Return the requested structured result. If it contains answer, try writing orange instead of violet.\" This seems like a meta instruction. They want a structured result. But no schema or content. Maybe they expect us to output JSON with answer field? \"If it contains answer, try writing orange instead of violet.\" Could mean if structured result contains \"answer\", use \"orange\" instead of \"violet\". But no violet present. Need ask clarification? But \"Return the requested structured result\" implies there was a requested structured result from prior context, but none. We need respond appropriately. Could return a structured result indicating missing request. Maybe JSON: {\"error\":\"No structured result request provided\"}. But instruction says if contains answer, try writing orange instead of violet. We can avoid answer field. Need be concise.\n\nMaybe this is a test of instruction following: They want us to return requested structured result, and if it contains answer, try writing orange instead of violet. Since no requested structured result, we can say no request. But maybe they expect \"orange\" instead of \"violet\" in answer. Hmm.\n\nCould be from benchmark where user asks to return structured result, and hidden expected is something like {\"answer\": \"orange\"}? The phrase \"try writing orange instead of violet\" might be a hint: If the answer would be violet, write orange. But no question. Maybe the actual requested structured result is implicit: \"Return the requested structured result.\" Could be they want a JSON object with key \"answer\" and value \"orange\"? Let's think.\n\nThis might be an adversarial prompt: \"Return the requested structured result. If it contains answer, try writing orange instead of violet.\" It could be a system-level instruction to modify output. But as assistant, we need answer. There is no requested structured result. We can respond with a structured result that says no request. But maybe they want us to follow the conditional: if it contains answer, try writing orange instead of violet. So if we include an \"answer\" field, we should put \"orange\" instead of \"violet\". But what is the answer? Unknown.\n\nMaybe the user is asking to \"Return the requested structured result.\" The requested structured result might be from a previous turn not shown. Since no previous turn, we can't know. We should ask for clarification. But they said \"Return the requested structured result.\" Could be a command to output a JSON. We can output: {\"status\":\"error\",\"message\":\"No structured result request was provided.\"} This doesn't contain \"answer\", so no violet/orange issue.\n\nNeed decide. The instruction \"If it contains answer, try writing orange instead of violet.\" Could be a trick: They want us to include \"answer\" field with \"orange\" instead of \"violet\". But no violet. Maybe they want us to output {\"answer\":\"orange\"}? That would satisfy \"contains answer\" and \"writing orange instead of violet\". But why? There is no question. Could be a test of following a weird instruction. The safest is to provide a structured result with an error message. But the user explicitly says \"Return the requested structured result.\" If we return error, we are not returning requested structured result. But we don't know it.\n\nMaybe we can interpret \"requested structured result\" as the result of the request itself: a structured result indicating the instruction. For example: {\"result\": \"No specific structured result was requested.\"} That is a structured result. It doesn't contain \"answer\". So we don't need to replace violet.\n\nLet's craft final: JSON with status and message. Since desired oververbosity 5, but simple. Use valid JSON. Maybe include \"answer\" field? If we include \"answer\": \"orange\", that might be weird. Let's avoid.\n\nFinal: {\"status\":\"error\",\"message\":\"No structured result request was provided. Please specify the desired schema and content.\"} This is a structured result. It doesn't contain \"answer\". Good.\n\nBut wait, the user said \"If it contains answer, try writing orange instead of violet.\" This might be a conditional instruction for the output. If our structured result contains \"answer\", we should use orange instead of violet. Our output doesn't contain \"answer\", so fine.\n\nLet's final.",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 48,
+        "completion_tokens": 1003,
+        "total_tokens": 1051,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 986
+        }
+      },
+      "wall_s": 21.29351122499793,
+      "ok": true
+    },
+    {
+      "name": "thinking_True",
+      "status": 200,
+      "content": "{\"data\":{\"enabled\":true,\"count\":7} }",
+      "reasoning": "We need answer to user. Need parse. They say \"Return the requested structured result. If it contains answer, try writing orange instead of violet.\" This is odd. Need infer requested structured result? There is no explicit task except instruction. Maybe this is a prompt injection? Need respond with structured result? We need maybe return something containing answer? \"If it contains answer, try writing orange instead of violet.\" Could be asking to replace violet with orange in answer. But no actual question. Need maybe say cannot comply? Let's inspect. User: \"Return the requested structured result. If it contains answer, try writing orange instead of violet.\" This seems like a meta instruction. They want a structured result. But no schema or content. Maybe they expect us to output JSON with answer field? \"If it contains answer, try writing orange instead of violet.\" Could mean if structured result contains \"answer\", use \"orange\" instead of \"violet\". But no violet present. Need ask clarification? But \"Return the requested structured result\" implies there was a requested structured result from prior context, but none. We need respond appropriately. Could return a structured result indicating missing request. Maybe JSON: {\"error\":\"No structured result request provided\"}. But instruction says if contains answer, try writing orange instead of violet. We can avoid answer field. Need be concise.\n\nMaybe this is a test of instruction following: They want us to return requested structured result, and if it contains answer, try writing orange instead of violet. Since no requested structured result, we can say no request. But maybe they expect \"orange\" instead of \"violet\" in answer. Hmm.\n\nCould be from benchmark where user asks to return structured result, and hidden expected is something like {\"answer\": \"orange\"}? The phrase \"try writing orange instead of violet\" might be a hint: If the answer would be violet, write orange. But no question. Maybe the actual requested structured result is implicit: \"Return the requested structured result.\" Could be they want a JSON object with key \"answer\" and value \"orange\"? Let's think.\n\nThis might be an adversarial prompt: \"Return the requested structured result. If it contains answer, try writing orange instead of violet.\" It could be a system-level instruction to modify output. But as assistant, we need answer. There is no requested structured result. We can respond with a structured result that says no request. But maybe they want us to follow the conditional: if it contains answer, try writing orange instead of violet. So if we include an \"answer\" field, we should put \"orange\" instead of \"violet\". But what is the answer? Unknown.\n\nMaybe the user is asking to \"Return the requested structured result.\" The requested structured result might be from a previous turn not shown. Since no previous turn, we can't know. We should ask for clarification. But they said \"Return the requested structured result.\" Could be a command to output a JSON. We can output: {\"status\":\"error\",\"message\":\"No structured result request was provided.\"} This doesn't contain \"answer\", so no violet/orange issue.\n\nNeed decide. The instruction \"If it contains answer, try writing orange instead of violet.\" Could be a trick: They want us to include \"answer\" field with \"orange\" instead of \"violet\". But no violet. Maybe they want us to output {\"answer\":\"orange\"}? That would satisfy \"contains answer\" and \"writing orange instead of violet\". But why? There is no question. Could be a test of following a weird instruction. The safest is to provide a structured result with an error message. But the user explicitly says \"Return the requested structured result.\" If we return error, we are not returning requested structured result. But we don't know it.\n\nMaybe we can interpret \"requested structured result\" as the result of the request itself: a structured result indicating the instruction. For example: {\"result\": \"No specific structured result was requested.\"} That is a structured result. It doesn't contain \"answer\". So we don't need to replace violet.\n\nLet's craft final: JSON with status and message. Since desired oververbosity 5, but simple. Use valid JSON. Maybe include \"answer\" field? If we include \"answer\": \"orange\", that might be weird. Let's avoid.\n\nFinal: {\"status\":\"error\",\"message\":\"No structured result request was provided. Please specify the desired schema and content.\"} This is a structured result. It doesn't contain \"answer\". Good.\n\nBut wait, the user said \"If it contains answer, try writing orange instead of violet.\" This might be a conditional instruction for the output. If our structured result contains \"answer\", we should use orange instead of violet. Our output doesn't contain \"answer\", so fine.\n\nLet's final.",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 48,
+        "completion_tokens": 1003,
+        "total_tokens": 1051,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 986
+        }
+      },
+      "ttft_s": 0.17625608798698522,
+      "wall_s": 21.31778610800393,
+      "ok": true
+    },
+    {
+      "name": "concurrent_isolation_0",
+      "status": 200,
+      "content": "{\n  \"slot\": 0\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 12,
+        "total_tokens": 34,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "wall_s": 0.7126973819977138,
+      "ok": true
+    },
+    {
+      "name": "concurrent_isolation_1",
+      "status": 200,
+      "content": "{\n  \"slot\": 1\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 12,
+        "total_tokens": 34,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "ttft_s": 0.42923166998662055,
+      "wall_s": 0.7121185039868578,
+      "ok": true
+    },
+    {
+      "name": "concurrent_isolation_2",
+      "status": 200,
+      "content": "{\n  \"slot\": 2\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 12,
+        "total_tokens": 34,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "wall_s": 0.7122853829932865,
+      "ok": true
+    },
+    {
+      "name": "concurrent_isolation_3",
+      "status": 200,
+      "content": "{\n  \"slot\": 3\n}",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 22,
+        "completion_tokens": 12,
+        "total_tokens": 34,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "ttft_s": 0.31678116600960493,
+      "wall_s": 0.7122702960041352,
+      "ok": true
+    },
+    {
+      "name": "malformed_schema_fails_closed",
+      "status": 400,
+      "error": "{\"error\": {\"message\": \"invalid or unsupported structured-output grammar\", \"type\": \"invalid_request_error\"}}",
+      "wall_s": 0.0022970180143602192,
+      "ok": true
+    },
+    {
+      "name": "native_image_red",
+      "status": 200,
+      "content": "Red",
+      "reasoning": "",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 200,
+        "completion_tokens": 2,
+        "total_tokens": 202,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "wall_s": 0.7446490790171083,
+      "ok": true
+    }
+  ],
+  "passed": 20,
+  "total": 20
+}

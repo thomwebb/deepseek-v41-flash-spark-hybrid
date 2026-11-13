@@ -49,6 +49,33 @@ class CloneSafety(unittest.TestCase):
         self.assertEqual(payload["Labels"]["owner"], dc.OWNER)
         self.assertEqual(baseline["HostConfig"]["RestartPolicy"]["Name"], "always")
 
+    def test_gid_selection_tracks_live_slots_and_rejects_missing_roce(self):
+        for valid in (True, False):
+            with self.subTest(valid=valid), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                port = root / "ib/hca0/ports/1"
+                (port / "gids").mkdir(parents=True)
+                (port / "gid_attrs/types").mkdir(parents=True)
+                (port / "gids/3").write_text("0000:0000:0000:0000:0000:0000:0000:0000")
+                (port / "gid_attrs/types/3").write_text("RoCE v2")
+                if valid:
+                    (port / "gids/4").write_text("0000:0000:0000:0000:0000:ffff:0a64:2802")
+                    (port / "gid_attrs/types/4").write_text("RoCE v2")
+                snapshot = root / "snapshot.json"
+                snapshot.write_text(json.dumps({"Config": {"Env": ["NCCL_IB_HCA=hca0", "NCCL_IB_GID_INDEX=3", "TF_RDMA_GID_INDEX=3"]}, "HostConfig": {}}))
+                def mapped_path(value):
+                    return root / "ib" if str(value) == "/sys/class/infiniband" else Path(value)
+                with patch.object(dc, "Path", side_effect=mapped_path), patch.object(dc, "inspect", return_value=None), patch.object(dc, "docker", side_effect=[{"Id": "new"}, {}]) as docker:
+                    if valid:
+                        dc.start(snapshot, "spark-hybrid-grammar-r0", "image", True)
+                        env = docker.call_args_list[0].args[2]["Env"]
+                        self.assertIn("NCCL_IB_GID_INDEX=4", env)
+                        self.assertIn("TF_RDMA_GID_INDEX=4", env)
+                    else:
+                        with self.assertRaises(RuntimeError):
+                            dc.start(snapshot, "spark-hybrid-grammar-r0", "image", True)
+                        docker.assert_not_called()
+
     def test_daemon_errors_do_not_echo_private_request_details(self):
         connection = MagicMock()
         response = connection.getresponse.return_value

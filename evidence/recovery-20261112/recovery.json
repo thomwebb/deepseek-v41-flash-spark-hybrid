@@ -1,0 +1,31 @@
+{
+  "checked_at": 1794529074.068038,
+  "cause": "Worker unavailable/rebooted while head remained running; saved head GID slot 3 no longer valid, live IPv4 RoCE-v2 slot is 4.",
+  "fixes": [
+    "Select live common IPv4 RoCE-v2 GID slot per host for NCCL_IB_GID_INDEX and TF_RDMA_GID_INDEX",
+    "Watch worker every 10 seconds with bounded SSH; restart pair after three failed checks",
+    "Check worker running during readiness"
+  ],
+  "worker_stop_drill": "Passed; head replaced automatically; observed ready within 54.3 seconds of monitoring after stop",
+  "health": {
+    "status": "ok",
+    "model": "DeepSeek-V4.1-Flash-1017",
+    "model_ids": [
+      "DeepSeek-V4.1-Flash-1017"
+    ],
+    "max_batch_size": 4,
+    "warming": false,
+    "memory": {
+      "active": 112699926820,
+      "cache": 0,
+      "peak": 112699926820
+    },
+    "live": {
+      "connections": 0,
+      "waiting": 0,
+      "decode_tokens_per_second": 0.0,
+      "prefill_tokens_per_second": 0.0
+    }
+  },
+  "head_image_id": "sha256:5a3f8e3b99407f8e91b10d6e3a351058d0a7e08e3d8b7b4da1f1e94df5f80259"
+}

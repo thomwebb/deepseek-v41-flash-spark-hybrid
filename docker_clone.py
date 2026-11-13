@@ -85,6 +85,29 @@ def start(snapshot, name, image, grammar):
     for key in ("Hostname", "Domainname"):
         config.pop(key, None)  # Let host networking inherit this host's identity, not an explicit hostname.
     config["Image"] = image
+    # GID slots can move across network reconfiguration/reboots. Never reuse a
+    # stale numeric slot from a saved container: require live IPv4 RoCE-v2 GIDs.
+    env = dict(entry.split("=", 1) for entry in config.get("Env", []) if "=" in entry)
+    hcas = env.get("NCCL_IB_HCA", "").lstrip("=").split(",")
+    candidates = None
+    for hca in filter(None, hcas):
+        port = Path("/sys/class/infiniband") / hca.split(":")[0] / "ports/1"
+        valid = set()
+        for gid in (port / "gids").glob("*"):
+            try:
+                value = gid.read_text().strip()
+                kind = (port / "gid_attrs/types" / gid.name).read_text().strip()
+                if kind == "RoCE v2" and ":ffff:" in value and not value.endswith(":0000:0000"):
+                    valid.add(int(gid.name))
+            except OSError:
+                continue
+        candidates = valid if candidates is None else candidates & valid
+    if hcas and hcas != [""]:
+        if not candidates:
+            raise RuntimeError("No common live IPv4 RoCE-v2 GID slot across configured HCAs")
+        env["NCCL_IB_GID_INDEX"] = str(min(candidates))
+        env["TF_RDMA_GID_INDEX"] = str(min(candidates))
+    config["Env"] = [key + "=" + value for key, value in env.items()]
     config["Env"] = [entry for entry in config.get("Env", [])
                      if not entry.startswith("TF_HYBRID_GRAMMAR=")]
     config["Env"].append("TF_HYBRID_GRAMMAR=" + str(int(grammar)))

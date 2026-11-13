@@ -51,6 +51,10 @@ def start_pair(manifest, logdir):
 def ready(seconds=600):
     started = time.monotonic()
     while time.monotonic() - started < seconds:
+        peer = worker_action("status")
+        peer_state = json.loads(peer.stdout)
+        if not peer_state or not peer_state.get("state", {}).get("Running"):
+            raise RuntimeError("Hybrid worker exited during startup")
         state = dc.inspect(HEAD)
         if not state or not state["State"]["Running"]:
             raise RuntimeError("Hybrid head exited during startup")
